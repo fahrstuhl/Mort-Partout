@@ -2,7 +2,7 @@ tool
 extends Node2D
 class_name Stamp
 
-export(String, "castle", "cat", "cow", "diamond", "game", "lucy", "monkey", "pig", "poodle", "rainbow") var STAMP = "castle"
+export(String) var STAMP = "castle" setget set_stamp
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -11,16 +11,13 @@ export(String, "castle", "cat", "cow", "diamond", "game", "lucy", "monkey", "pig
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_stamp(STAMP)
+
+func set_stamp(stamp):
+	STAMP = stamp
 	var path = "res://assets/graphics/stamps/%s.png" % STAMP
-	print(path)
 	var texture = load(path)
-	var size = texture.get_size()
-	$resized_sprite.SIZE = size
+	var size = texture.get_size()/2
 	$resized_sprite.texture = texture
+	$resized_sprite.SIZE = size
 	$shape.shape.extents = size/2
-	
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

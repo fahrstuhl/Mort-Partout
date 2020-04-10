@@ -1,7 +1,7 @@
 tool
 extends Node2D
 
-export var CURRENT = 0 setget set_paradise
+export(int) var CURRENT = 0 setget set_paradise
 
 func _ready():
 	set_paradise(CURRENT)

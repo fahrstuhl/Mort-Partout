@@ -1,6 +1,7 @@
 # Syncthing ignores
 .stfolder
 .stignore
+.stversions
 
 # Godot-specific ignores
 .import/
