@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://stamp.gd" type="Script" id=1]
+[ext_resource path="res://resized_sprite.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/graphics/stamps/castle.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 100, 100 )
+
+[node name="stamp" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="resized_sprite" parent="." instance=ExtResource( 2 )]
+texture = ExtResource( 3 )
+centered = true
+SIZE = Vector2( 200, 200 )
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )

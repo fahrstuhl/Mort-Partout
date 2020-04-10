@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/graphics/stamps/castle.png" type="Texture" id=1]
+
+[node name="Camera2D" type="Camera2D"]
+position = Vector2( 960.191, 547.205 )
+
+[node name="castle" type="Sprite" parent="."]
+position = Vector2( -855.484, -439.49 )
+texture = ExtResource( 1 )
