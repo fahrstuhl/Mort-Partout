@@ -86,35 +86,9 @@ func move_pos(pos, instance):
 			Tween.EASE_IN_OUT,
 			delay
 			)
-	wiggle(instance)
+	instance.wiggle()
 	instance.z_index = pos.z_index
 	tween.start()
-
-func wiggle(instance):
-	var tween = instance.get_node("Tween")
-	var delay = rand_range(1,1.5)
-	var duration = rand_range(0.5,1)
-	var direction = sign(rand_range(-1,1))
-	tween.interpolate_property(
-		instance,
-		"rotation",
-		- direction * deg2rad(2),
-		+ direction * deg2rad(2),
-		duration,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		delay
-	)
-	tween.interpolate_property(
-		instance,
-		"rotation",
-		+ direction * deg2rad(2),
-		0,
-		duration,
-		Tween.TRANS_SINE,
-		Tween.EASE_IN_OUT,
-		delay + duration
-	)
 
 func give():
 	if level_finished:

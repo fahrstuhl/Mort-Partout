@@ -17,10 +17,10 @@ func select_new_thought():
 	$thought_bubble/thought.set_texture(texture)
 
 func set_score_thought(score):
-	done = true
 	var texture = load("res://assets/graphics/scores/%d.png" % score)
 	$thought_bubble/thought.set_texture(texture)
 	_on_thought_show_timer_timeout()
+	done = true
 
 func _ready():
 	_on_thought_hide_timer_timeout()
@@ -36,7 +36,15 @@ func set_character(character):
 	$sprite.set_texture(texture)
 
 func _on_thought_show_timer_timeout():
+	if done:
+		return
 	$thought_bubble.show()
+	Global.rng.randomize()
+	var i = Global.rng.randi_range(1,24)
+	var sound = load("res://assets/sounds/r%s_Selection.wav" % i)
+	$bla_player.stream = sound
+	$bla_player.play()
+	wiggle(0,0.4)
 	$thought_hide_timer.start()
 
 func _on_thought_hide_timer_timeout():
@@ -47,3 +55,32 @@ func _on_thought_hide_timer_timeout():
 	
 func _on_free_timer_timeout():
 	queue_free()
+
+func wiggle(delay=null, duration=null):
+	var tween = $wiggle_tween
+	if delay == null:
+		delay = rand_range(1,1.5)
+	if duration == null:
+		duration = rand_range(0.5,1)
+	var direction = sign(rand_range(-1,1))
+	tween.interpolate_property(
+		self,
+		"rotation",
+		- direction * deg2rad(2),
+		+ direction * deg2rad(2),
+		duration,
+		Tween.TRANS_SINE,
+		Tween.EASE_IN_OUT,
+		delay
+	)
+	tween.interpolate_property(
+		self,
+		"rotation",
+		+ direction * deg2rad(2),
+		0,
+		duration,
+		Tween.TRANS_SINE,
+		Tween.EASE_IN_OUT,
+		delay + duration
+	)
+	tween.start()
