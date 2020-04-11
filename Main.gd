@@ -131,12 +131,12 @@ func check_bear(evaluation):
 	var is_correct_env = evaluation["num"] == 2
 	if is_correct_env:
 		score += 1
-	var animals_on_ground = 0
-	if "ground" in evaluation["areas"]:
-		for stamp in evaluation["areas"]["ground"]:
+	var animals = 0
+	for area in evaluation["areas"]:
+		for stamp in evaluation["areas"][area]:
 			if stamp in Global.animals:
-				animals_on_ground += 1
-	score += clamp(animals_on_ground, 0, 3)
+				animals += 1
+	score += clamp(animals, 0, 3)
 	return score
 
 func check_beatle(evaluation):
@@ -209,12 +209,12 @@ func check_hedge_fond_manager(evaluation):
 
 func check_animal_lover(evaluation):
 	var score = 1
-	var animals_on_ground = 0
-	if "ground" in evaluation["areas"]:
-		for stamp in evaluation["areas"]["ground"]:
+	var animals = 0
+	for area in evaluation["areas"]:
+		for stamp in evaluation["areas"][area]:
 			if stamp in Global.animals:
-				animals_on_ground += 1
-	score += clamp(animals_on_ground, 0, 4)
+				animals += 1
+	score += clamp(animals, 0, 4)
 	return score
 
 func check_jesus(evaluation):
@@ -273,8 +273,11 @@ func _on_Download_pressed():
 		$download_info.inform("Saving images is not supported in browsers, please download the native version.\nOr take a screenshot!")
 		return
 	var t = OS.get_datetime()
-	var f = [OS.get_user_data_dir(), t["year"], t["month"], t["day"], t["hour"], t["minute"], t["second"]]
-	var path = "Current painting saved to:\n%s/%04d-%02d-%02d_%02d-%02d-%02d.png" % f
+	var f = [t["year"], t["month"], t["day"], t["hour"], t["minute"], t["second"]]
+	var image_name = "%04d-%02d-%02d_%02d-%02d-%02d.png" % f
+	var readable_path = "%s/%s" % [OS.get_user_data_dir(), image_name]
+	var to_print = "Current painting saved to:\n%s" % readable_path
+	var save_path = "user://%s" % image_name
 	var img = $Foreground/canvas/Viewport.get_texture().get_data()
-	img.save_png(path)
-	$download_info.inform(path)
+	img.save_png(save_path)
+	$download_info.inform(to_print)
