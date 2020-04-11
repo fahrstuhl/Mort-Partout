@@ -8,6 +8,8 @@ func _ready():
 	resize()
 
 func resize():
+	if texture == null:
+		return
 	var img = texture.get_data()
 	if img == null:
 		return
@@ -17,6 +19,10 @@ func resize():
 
 func set_SIZE(size):
 	SIZE = size
+	resize()
+
+func set_texture(t):
+	texture = t
 	resize()
 
 func _on_resized_sprite_texture_changed():
