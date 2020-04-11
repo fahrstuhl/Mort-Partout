@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://canvas.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/canvases/Paradies1.png" type="Texture" id=2]
@@ -8,6 +8,13 @@
 [ext_resource path="res://assets/graphics/canvases/Paradies2.png" type="Texture" id=6]
 [ext_resource path="res://assets/graphics/canvases/Paradies0.png" type="Texture" id=7]
 [ext_resource path="res://assets/noto.tres" type="DynamicFont" id=8]
+[ext_resource path="res://assets/music/leopard-print-elevator-by-kevin-macleod-from-filmmusic-io.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/graphics/stamps/parchment.png" type="Texture" id=10]
+[ext_resource path="res://download_info.gd" type="Script" id=11]
+[ext_resource path="res://assets/graphics/stamps/download.png" type="Texture" id=12]
+[ext_resource path="res://assets/graphics/background.png" type="Texture" id=13]
+[ext_resource path="res://grim_reaper_cursor.gd" type="Script" id=14]
+[ext_resource path="res://assets/graphics/characters/grim_reaper_cursor.png" type="Texture" id=15]
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("Foreground/canvas/Viewport")
@@ -19,6 +26,9 @@ script = ExtResource( 3 )
 z_index = -1
 
 [node name="Environment" type="Sprite" parent="Background"]
+z_index = -100
+texture = ExtResource( 13 )
+centered = false
 
 [node name="Characters" type="Node2D" parent="Background"]
 
@@ -30,12 +40,13 @@ modulate = Color( 1, 1, 1, 0.501961 )
 position = Vector2( 808.183, -1232.13 )
 
 [node name="0" type="Position2D" parent="Background/Positions"]
-position = Vector2( 721.937, 379.215 )
+position = Vector2( 755.937, 379.215 )
 z_index = -1
 
 [node name="1" type="Position2D" parent="Background/Positions"]
 modulate = Color( 0.95, 0.95, 0.95, 1 )
 position = Vector2( 477.589, 322.095 )
+scale = Vector2( 0.95, 0.95 )
 z_index = -2
 
 [node name="2" type="Position2D" parent="Background/Positions"]
@@ -93,7 +104,7 @@ scale = Vector2( 0.7, 0.7 )
 z_index = -11
 
 [node name="Foreground" type="Node2D" parent="."]
-position = Vector2( 1078.64, 26.3082 )
+position = Vector2( 1078.64, 79.3082 )
 
 [node name="ColorRect" type="ColorRect" parent="Foreground"]
 margin_right = 731.0
@@ -128,6 +139,7 @@ render_target_clear_mode = 2
 [node name="stamps" type="Node2D" parent="Foreground/canvas/Viewport"]
 
 [node name="first_start_screen" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -143,10 +155,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -227.0
-margin_top = -118.0
-margin_right = 227.0
-margin_bottom = 118.0
+margin_left = 219.604
+margin_top = -220.527
+margin_right = 736.604
+margin_bottom = 73.4726
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -189,19 +201,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -396.5
-margin_top = -89.0
-margin_right = 396.5
-margin_bottom = 89.0
+margin_left = 130.491
+margin_top = -220.235
+margin_right = 841.491
+margin_bottom = 15.765
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="level_finished_screen/container"]
-margin_right = 793.0
-margin_bottom = 113.0
+margin_right = 711.0
+margin_bottom = 171.0
 custom_fonts/font = ExtResource( 8 )
-text = "You finished level {0} with a score of {1}.
+text = "You finished level {0}
+with a score of {1}.
 Good Job!"
 align = 1
 __meta__ = {
@@ -209,71 +222,107 @@ __meta__ = {
 }
 
 [node name="start_next_level" type="Button" parent="level_finished_screen/container"]
-margin_top = 117.0
-margin_right = 793.0
-margin_bottom = 178.0
+margin_top = 175.0
+margin_right = 711.0
+margin_bottom = 236.0
 custom_fonts/font = ExtResource( 8 )
 text = "Start Next Level"
 
-[node name="UI" type="Control" parent="."]
-margin_left = 1840.8
-margin_top = 879.752
-margin_right = 1880.8
-margin_bottom = 919.752
+[node name="download_info" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Give" type="Button" parent="UI"]
-margin_left = -7.17505
-margin_top = -239.166
-margin_right = 33.825
-margin_bottom = -219.166
-text = "Give"
+[node name="Label" type="Label" parent="download_info"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+custom_fonts/font = ExtResource( 8 )
+text = "Painting downloaded to {0}!"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="download_hide_timer" type="Timer" parent="download_info"]
+wait_time = 3.0
+one_shot = true
+
+[node name="UI" type="Control" parent="."]
+margin_left = 1840.8
+margin_top = 944.752
+margin_right = 1880.8
+margin_bottom = 984.752
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="0" type="TextureButton" parent="UI"]
-margin_left = -18.3711
-margin_top = -600.416
-margin_right = 1901.63
-margin_bottom = 1559.58
-rect_scale = Vector2( 0.098, 0.098 )
+margin_left = -19.6631
+margin_top = -623.556
+margin_right = 1900.34
+margin_bottom = 176.444
+rect_scale = Vector2( 0.115706, 0.115706 )
 texture_normal = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="1" type="TextureButton" parent="UI"]
-margin_left = -18.3711
-margin_top = -513.188
-margin_right = 1901.63
-margin_bottom = 1646.81
-rect_scale = Vector2( 0.0361735, 0.0361735 )
+margin_left = -19.7656
+margin_top = -527.398
+margin_right = 1900.23
+margin_bottom = 1632.6
+rect_scale = Vector2( 0.0429752, 0.0429752 )
 texture_normal = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="2" type="TextureButton" parent="UI"]
-margin_left = -18.3711
-margin_top = -429.416
-margin_right = 1901.63
-margin_bottom = 1730.58
-rect_scale = Vector2( 0.0361735, 0.0361735 )
+margin_left = -19.9609
+margin_top = -430.211
+margin_right = 1900.04
+margin_bottom = 1729.79
+rect_scale = Vector2( 0.043361, 0.043361 )
 texture_normal = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="3" type="TextureButton" parent="UI"]
-margin_left = -18.3711
-margin_top = -341.416
-margin_right = 1901.63
-margin_bottom = 1818.58
-rect_scale = Vector2( 0.0361735, 0.0361735 )
+margin_left = -20.0
+margin_top = -332.0
+margin_right = 1900.0
+margin_bottom = 1828.0
+rect_scale = Vector2( 0.0435557, 0.0435557 )
 texture_normal = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Give" type="TextureButton" parent="UI"]
+margin_left = -23.8154
+margin_top = -235.237
+margin_right = 176.185
+margin_bottom = -35.2369
+rect_scale = Vector2( 0.462705, 0.462705 )
+texture_normal = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Download" type="TextureButton" parent="UI"]
+margin_left = -11.8154
+margin_top = -111.237
+margin_right = 188.185
+margin_bottom = 88.7631
+rect_scale = Vector2( 0.356693, 0.356693 )
+texture_normal = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -284,17 +333,33 @@ margin_top = -7.17456
 margin_right = -755.763
 margin_bottom = -7.17456
 rect_scale = Vector2( 0.3, 0.3 )
-columns = 10
+columns = 11
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -22.0
+autoplay = true
+
+[node name="grim_reaper_cursor" type="Sprite" parent="."]
+visible = false
+position = Vector2( 105.52, 702.511 )
+z_index = 100
+texture = ExtResource( 15 )
+centered = false
+offset = Vector2( 0, -108 )
+script = ExtResource( 14 )
 [connection signal="mouse_entered" from="Foreground/canvas" to="." method="_on_canvas_mouse_entered"]
 [connection signal="mouse_exited" from="Foreground/canvas" to="." method="_on_canvas_mouse_exited"]
 [connection signal="stamp" from="Foreground/canvas" to="." method="_on_canvas_stamp"]
 [connection signal="pressed" from="first_start_screen/container/start_game" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="level_finished_screen/container/start_next_level" to="." method="start_next_level"]
-[connection signal="pressed" from="UI/Give" to="." method="_on_Give_pressed"]
+[connection signal="timeout" from="download_info/download_hide_timer" to="download_info" method="_on_download_hide_timer_timeout"]
 [connection signal="pressed" from="UI/0" to="." method="_on_0_pressed"]
 [connection signal="pressed" from="UI/1" to="." method="_on_1_pressed"]
 [connection signal="pressed" from="UI/2" to="." method="_on_2_pressed"]
 [connection signal="pressed" from="UI/3" to="." method="_on_3_pressed"]
+[connection signal="pressed" from="UI/Give" to="." method="_on_Give_pressed"]
+[connection signal="pressed" from="UI/Download" to="." method="_on_Download_pressed"]

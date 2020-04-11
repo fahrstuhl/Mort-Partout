@@ -96,7 +96,6 @@ func give():
 	var character_type = current_character.CHARACTER
 	var evaluation = evaluate_paradise()
 	var score = min(call("check_%s" % character_type, evaluation), 5)
-	print("Character {0} with score {1}. Current score: {2}".format([character_type, score, current_score]))
 	current_character.set_score_thought(score)
 	change_canvas(0)
 	current_score += score
@@ -112,7 +111,7 @@ func test_level_end():
 	level_finished = tmp_level_finished
 	if level_finished:
 		scores[current_level] = current_score
-		var text = "You finished level {0} with a score of {1}.\nGood Job!"
+		var text = "You finished level {0}!\nYour score is {1}.\nGood Job!"
 		$level_finished_screen/container/Label.text = text.format([current_level, current_score])
 		$level_finished_screen.show()
 
@@ -251,7 +250,6 @@ func _on_canvas_mouse_exited():
 	mouse_stamp.hide()
 
 func set_stamp(stamp):
-	print(stamp)
 	CURRENT_STAMP = stamp
 	mouse_stamp.STAMP = CURRENT_STAMP
 
@@ -269,3 +267,14 @@ func _on_start_game_pressed():
 	$first_start_screen.hide()
 	$first_start_screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	level_finished = false
+
+func _on_Download_pressed():
+	if OS.get_name() == "HTML5":
+		$download_info.inform("Saving images is not supported in browsers, please download the native version.\nOr take a screenshot!")
+		return
+	var t = OS.get_datetime()
+	var f = [OS.get_user_data_dir(), t["year"], t["month"], t["day"], t["hour"], t["minute"], t["second"]]
+	var path = "Current painting saved to:\n%s/%04d-%02d-%02d_%02d-%02d-%02d.png" % f
+	var img = $Foreground/canvas/Viewport.get_texture().get_data()
+	img.save_png(path)
+	$download_info.inform(path)
